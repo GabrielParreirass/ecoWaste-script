@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  email           String        @unique
+  name            String?
+  password        String
+  verified        Boolean
+  otp             String
+  token           String?
+  ecoCoins        Float
+  transacoes      Transacoes[]
+  coletas         Coletas[]
+  manutencoes     Manutencoes[]
+  chavesPendentes Json?
+  cupons          Json?
+  role            String
+  temLixeira      Boolean
+  Lixeiras        Lixeiras[]
+}
+
+model Coletas {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  type      String
+  peso      String
+  dia       String
+  horario   String
+  status    String
+  expira    String
+  Users     Users?  @relation(fields: [usersId], references: [id])
+  usersId   String? @db.ObjectId
+  latitude  String
+  longitude String
+  coletor   String?
+  lixeiraId String?
+}
+
+model Transacoes {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  type    String
+  value   String
+  partner String
+  Users   Users?  @relation(fields: [usersId], references: [id])
+  usersId String? @db.ObjectId
+}
+
+model Manutencoes {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  type    String
+  Users   Users?  @relation(fields: [usersId], references: [id])
+  usersId String? @db.ObjectId
+}
+
+model Lixeiras {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  cheia     Boolean
+  Users     Users?  @relation(fields: [usersId], references: [id])
+  usersId   String? @db.ObjectId
+  latitude  String
+  longitude String
+  type      String
+}
