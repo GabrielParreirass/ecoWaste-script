@@ -8,7 +8,7 @@ const options = {
 }
 
 
-const client = mqtt.connect("mqtt://192.168.40.7:1883", options);
+const client = mqtt.connect("mqtt://192.168.66.11:1883", options);
 
 console.log("🔄 Tentando conectar ao broker MQTT...");
 

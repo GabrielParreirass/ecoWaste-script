@@ -26,7 +26,7 @@ const options = {
   password: "WhoAmI#2024", // corrigido aqui
 };
 
-const client = mqtt.connect("mqtt://192.168.40.7:1883", options);
+const client = mqtt.connect("mqtt://192.168.66.11:1883", options);
 
 client.on("connect", () => {
   console.log("Conectado ao broker MQTT");
