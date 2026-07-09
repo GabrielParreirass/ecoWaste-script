@@ -39,16 +39,15 @@ export async function handleCadastro(message: string) {
           otp,
           ecoCoins: 0,
           role,
-          temLixeira: true,
-          Lixeiras:{
-            create:{
-              cheia:false,
-              latitude:"-22.256755",
-              longitude:"-45.696073",
-              type:"Papel",
-              
-            }
-          }
+          temLixeira: false,
+          // Lixeiras:{
+          //   create:{
+          //     cheia:false,
+          //     latitude:"-22.256755",
+          //     longitude:"-45.696073",
+          //     type:"Papel",
+          //   }
+          // }
         },
       });
 

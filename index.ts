@@ -18,6 +18,9 @@ import { handleGetAllColetas } from "./routes/GetAllColetas";
 import { handleReservarColeta } from "./routes/ReservarColeta";
 import { handleCadastrarColetaLixeira } from "./routes/Lixeira/CadastrarColetaLixeira";
 import { handleGetColetasReservadas } from "./routes/Coletas/ColetasReservadas";
+import { handleConfirmarColeta } from "./routes/Coletas/ConfirmarColeta";
+import { handleCadastrarLixeira } from "./routes/CadastrarLixeira";
+import { handleCancelarColeta } from "./routes/Coletas/CancelarColeta";
 
 const options = {
   clientId: "backend_" + Math.random().toString(16).substr(2, 8),
@@ -122,6 +125,38 @@ client.on("connect", () => {
   client.subscribe("user/reservarColetaResponse/#", (err) => {
     if (!err) {
       console.log("📡 Inscrito no tópico user/reservarColetaResponse/#");
+    } else {
+      console.error("Erro ao se inscrever:", err);
+    }
+  });
+
+  client.subscribe("user/confirmarColeta", (err) => {
+    if (!err) {
+      console.log("📡 Inscrito no tópico user/confirmarColeta");
+    } else {
+      console.error("Erro ao se inscrever:", err);
+    }
+  });
+
+  client.subscribe("user/confirmarColetaResponse/#", (err) => {
+    if (!err) {
+      console.log("📡 Inscrito no tópico user/confirmarColetaResponse/#");
+    } else {
+      console.error("Erro ao se inscrever:", err);
+    }
+  });
+
+  client.subscribe("user/cancelarColeta", (err) => {
+    if (!err) {
+      console.log("📡 Inscrito no tópico user/cancelarColeta");
+    } else {
+      console.error("Erro ao se inscrever:", err);
+    }
+  });
+
+  client.subscribe("user/cancelarColetaResponse/#", (err) => {
+    if (!err) {
+      console.log("📡 Inscrito no tópico user/cancelarColetaResponse/#");
     } else {
       console.error("Erro ao se inscrever:", err);
     }
@@ -324,6 +359,21 @@ client.on("connect", () => {
     }
   });
 
+  client.subscribe("user/cadastrarLixeira", (err) => {
+    if (!err) {
+      console.log("📡 Inscrito no tópico user/cadastrarLixeira");
+    } else {
+      console.error("Erro ao se inscrever:", err);
+    }
+  });
+  client.subscribe("user/cadastrarLixeiraResponse/#", (err) => {
+    if (!err) {
+      console.log("📡 Inscrito no tópico user/cadastrarLixeiraResponse/#");
+    } else {
+      console.error("Erro ao se inscrever:", err);
+    }
+  });
+
 });
 
 client.on("close", () => {
@@ -368,6 +418,14 @@ client.on("message", async (topic, message) => {
     handleReservarColeta(message.toString())
   }
 
+  if (topic == "user/confirmarColeta") {
+    handleConfirmarColeta(message.toString())
+  }
+
+  if (topic == "user/cancelarColeta") {
+    handleCancelarColeta(message.toString())
+  }
+
   if (topic == "user/getUserData") {
     handleGetUserData(message.toString());
   }
@@ -410,5 +468,9 @@ client.on("message", async (topic, message) => {
 
   if(topic == "user/getColetasReservadas"){
     handleGetColetasReservadas(message.toString())
+  }
+
+  if(topic == "user/cadastrarLixeira"){
+    handleCadastrarLixeira(message.toString())
   }
 });
